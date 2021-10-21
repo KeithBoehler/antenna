@@ -30,15 +30,23 @@ uhf = quadCustom('Exciter',dip,...
 'BoomOffset' ,[0 0.005 (65.75/2 -14.562)*0.0254] ,...
 'Tilt' ,90 ,...
 'TiltAxis' ,[0 1 0]);
+%%%%%%%%%%%%%%%%%%%%%%%%
+% Reading in out paramonte stuff
+pmlibRootDir = "/home/keithnator3000/src/ASTROSOFT/paramonte";
+addpath(genpath(pmlibRootDir));
 
-figure
-pattern(uhf ,436e6)
+pm = paramonte();
+pmpd = pm.ParaDRAM();
 
-figure
-patternAzimuth (uhf ,436e6);
-
-figure
-show (uhf)
+%%%%%%%%%%%%%%%%%%%%%%%%
+% figure
+% pattern(uhf ,436e6)
+% 
+% figure
+% patternAzimuth (uhf ,436e6);
+% 
+% figure
+% show (uhf)
 
 fc =435e6; % For UHF = 435e6 , f o r VHF = 146 e6
 c = physconst ('LightSpeed');
@@ -48,8 +56,8 @@ lb = c/fc; % The lambda
 K = [1:20];
 
 % = [A1x, A2x, ..., Anx]
-x = [0, lb, 5*lb/2, 8*lb/2, 9*lb/2, 11*lb/2, lb,    5*lb/2,6*lb/2,9*lb/2,lb,5*lb/2,6*lb/2,9*lb/2,lb,5*lb/2,8*lb/2,9*lb/2,0,11*lb/2];
-y = [0, lb, lb,       lb,     lb,     0,      5*lb/2,5*lb/2,5*lb/2,5*lb/2,6*lb/2,6*lb/2,6*lb/2,6*lb/2,9*lb/2,9*lb/2,9*lb/2,9*lb/2,11*lb/2,11*lb/2];
+x = [0, lb, lb, lb, lb, lb, lb, lb, lb, lb,lb, lb, lb, lb, lb, lb, lb, lb, 0, lb];
+y = [0, lb, lb, lb, lb, 0, lb, lb, lb, lb, lb, lb, lb, lb, lb, lb, lb, lb, lb, lb];
 z = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
 x = K .* x;
@@ -66,23 +74,23 @@ arbitrary = phased.ConformalArray(...
 
 % View the array elements by uncommenting below .
 figure
-viewArray ( arbitrary ,'showNormals',true ,'ShowIndex','All')
+viewArray (arbitrary ,'showNormals',true ,'ShowIndex','All')
 
 % Look at the overall array ’s beam pattern .
 figure
 pattern (arbitrary,fc);
-
-pattern(arbitrary,fc,'PropagationSpeed',c,'Type','powerdb',...
-    'CoordinateSystem','uv');
-
-pattern(arbitrary,fc,-1:0.01:1,0,'PropagationSpeed',c, ...
-    'CoordinateSystem','UV','Type','powerdb')
-axis([-1 1 -50 0]);
+% 
+% pattern(arbitrary,fc,'PropagationSpeed',c,'Type','powerdb',...
+%     'CoordinateSystem','uv');
+% 
+% pattern(arbitrary,fc,-1:0.01:1,0,'PropagationSpeed',c, ...
+%     'CoordinateSystem','UV','Type','powerdb')
+% axis([-1 1 -50 0]);
 
 % Show an azimuthal cut of the array ’s beam pattern .
-figure
-patternAzimuth(arbitrary,fc)
+% figure
+% patternAzimuth(arbitrary,fc)
 
 % Show an elevation cut of the array ’s beam pattern .
-figure
-patternElevation(arbitrary,fc ,'Elevation' , -90:0.01:90) ;
+% figure
+% patternElevation(arbitrary,fc ,'Elevation' , -90:0.01:90) ;
